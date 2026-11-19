@@ -1,2 +1,2 @@
-# Crypto-Mayhem
-[VIBECODED] Crypto Mayhem Gamemode for PWindows Quiz Engine!
+# PWindows Quiz Engine
+[VIBECODED] PWindows Quiz Engine
