@@ -1,0 +1,9 @@
+/* Crypto Mayhem — game-specific theme.
+ * Warm amber accent on top of the shared terminal.
+ * Only loaded by crypto-mayhem/index.html. */
+
+:root {
+  --accent:   #f5b942;
+  --border:   #2a2010;
+  --bg-hover: #1a1408;
+}

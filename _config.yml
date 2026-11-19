@@ -1,0 +1,15 @@
+title: PWindows Quiz Engine
+description: A classroom quiz engine with a real terminal.
+url: "https://quizengine.pwindows.qzz.io"
+baseurl: ""
+
+markdown: kramdown
+permalink: pretty
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .jekyll-cache

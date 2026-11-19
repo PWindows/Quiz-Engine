@@ -1,0 +1,32 @@
+- id: bash
+  name: Bash
+  username: custom
+  storage: Argon2id
+  lockout: 2
+  coverage: narrow
+  harden: null
+  unique: sees attack log
+  tagline: "Nobody can find you. You'll have to earn your own money."
+  steal_cap: 0.25
+
+- id: powershell
+  name: PowerShell
+  username: user
+  storage: bcrypt
+  lockout: 5
+  coverage: broad
+  harden: 6
+  unique: broadest toolkit
+  tagline: "The right tool for every job. Never waste a turn."
+  steal_cap: 0.15
+
+- id: java
+  name: Java
+  username: admin
+  storage: unsalted MD5
+  lockout: 10
+  coverage: moderate
+  harden: 2
+  unique: cheapest offense
+  tagline: "Hit hardest, earliest. Everyone can hit you back. Patch before they do."
+  steal_cap: 0.10

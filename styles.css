@@ -1,0 +1,85 @@
+/* Shared base + terminal styles.
+ * Every page loads this. Themes override the CSS variables in :root.
+ * A game's style.css is the right place for that. */
+
+:root {
+  --bg: #0a0e0a;
+  --bg-hover: #0f1a0f;
+  --border: #1a2a1a;
+  --fg: #b8f2b8;
+  --fg-bright: #e8ffe8;
+  --fg-dim: #5a7a5a;
+  --accent: #6bff9f;
+  --err: #ff6b6b;
+  --query: #d4a4ff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+a { color: var(--accent); }
+
+/* ─── Terminal ─────────────────────────────────────────────────────── */
+
+#terminal {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#scrollback {
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#scrollback .line  { min-height: 1.55em; }
+#scrollback .cmd   { color: var(--fg-bright); }
+#scrollback .err   { color: var(--err); }
+#scrollback .ok    { color: var(--accent); }
+#scrollback .dim   { color: var(--fg-dim); }
+#scrollback .query { color: var(--query); }
+#scrollback .banner { color: var(--accent); }
+
+#input-row {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+#input-row .prompt {
+  color: var(--accent);
+  margin-right: 8px;
+  user-select: none;
+}
+
+#input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg-bright);
+  font: inherit;
+  caret-color: var(--accent);
+}
+
+/* ─── Mobile ───────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  #terminal { padding: 10px 12px; font-size: 13px; }
+}

@@ -1,0 +1,17 @@
+# Global balance numbers. Read by the game via window.GAME_CONFIG.
+# Change here, not in JS.
+
+energy_per_answer: 3
+passive_income: 25
+machine_cost: 10
+cloud_cost: 5
+default_rounds: 15
+tick_seconds: 2
+
+# Multipliers applied to the steal cap for repeated hits on the same pair.
+steal_diminishing: [1.0, 0.6, 0.35, 0.2]
+
+error_strings:
+  no_user: "No such user exists"
+  wrong_pass: "Wrong Password"
+  welcome: "Welcome."
