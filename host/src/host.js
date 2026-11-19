@@ -1,5 +1,5 @@
-import { loadQuizzes } from '/shared/src/quiz.js';
-import { MSG, makeCode, peerIdForCode, publicQuiz } from '/shared/src/protocol.js';
+import { loadQuizzes, publicQuiz } from '/shared/src/quiz.js';
+import { MSG, makeCode, peerIdForCode } from '/shared/src/protocol.js';
 
 const $ = (sel) => document.querySelector(sel);
 
