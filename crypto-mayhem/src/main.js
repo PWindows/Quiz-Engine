@@ -5,6 +5,15 @@ import { createCommands } from './commands.js';
 async function main() {
   const root = document.getElementById('terminal');
   const config = window.GAME_CONFIG;
+  const shells = window.GAME_SHELLS;
+
+  if (!config || !shells) {
+    root.innerHTML = `<pre style="color:#ff6b6b;padding:20px">config.js failed to load. Open /config.js in a browser tab and check line 5.</pre>`;
+    return;
+  }
+  if (config._dataLoaded === false) {
+    console.warn('[config] _data/*.yml not loaded by Jekyll — using built-in defaults.');
+  }
 
   const state = {
     energy: config.energyPerAnswer,
