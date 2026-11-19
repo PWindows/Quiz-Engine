@@ -1,0 +1,22 @@
+---
+layout: default
+title: Crypto Mayhem
+styles:
+  - /crypto-mayhem/style.css
+---
+<main id="root">
+  <section class="waiting" id="no-session">
+    <p class="label">Crypto Mayhem</p>
+    <h2 class="quiz-title">No active session</h2>
+    <p class="status">You need a room code to play.</p>
+    <p style="margin-top:24px;">
+      <a href="{{ '/join/' | relative_url }}"
+         style="color:var(--accent);text-decoration:none;font-weight:600;font-family:ui-monospace,monospace;">
+        ← Go to /join/
+      </a>
+    </p>
+  </section>
+</main>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script type="module" src="{{ '/play/crypto/reconnect.js' | relative_url }}"></script>

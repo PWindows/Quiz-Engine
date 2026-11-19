@@ -1,0 +1,117 @@
+/* Pre-connect form. Fully self-contained light theme.
+ * Game theme takes over on connect (dynamically-loaded stylesheet
+ * overrides `body` and the `:root` vars). */
+
+body {
+  background: linear-gradient(135deg, #fef9f3 0%, #f0f4ff 55%, #ecfeff 100%);
+  background-attachment: fixed;
+  color: #1a1a2e;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#form-screen {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+#form-screen header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+#form-screen h1 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+#form-screen .tagline {
+  color: #64748b;
+  font-size: 16px;
+}
+
+.form { display: grid; gap: 20px; }
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.form input {
+  font: inherit;
+  padding: 16px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  background: white;
+  color: #1a1a2e;
+  font-size: 18px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+}
+
+.form button {
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  transition: filter 0.15s;
+}
+
+.form button:hover { filter: brightness(1.08); }
+.form button:disabled { opacity: 0.5; cursor: wait; }
+
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ef4444;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.toast[hidden] { display: none; }
+
+@media (max-width: 600px) {
+  #form-screen { padding: 48px 16px; }
+  #form-screen h1 { font-size: 28px; }
+}

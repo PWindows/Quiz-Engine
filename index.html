@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Games
+title: Home
 styles:
   - /landing.css
 ---
@@ -11,13 +11,25 @@ styles:
   </header>
 
   <section class="games">
+    <a class="game-card" href="{{ '/host/' | relative_url }}">
+      <h2>Host a Game</h2>
+      <p>Teacher opens a room. Students join with a code.</p>
+    </a>
+    <a class="game-card" href="{{ '/join/' | relative_url }}">
+      <h2>Join a Game</h2>
+      <p>Enter the room code from your teacher.</p>
+    </a>
+    <a class="game-card" href="{{ '/create/' | relative_url }}">
+      <h2>Create a Quiz</h2>
+      <p>Build a quiz. Saved in this browser. Export as JSON.</p>
+    </a>
     <a class="game-card" href="{{ '/crypto-mayhem/' | relative_url }}">
-      <h2>Crypto Mayhem</h2>
-      <p>Three shells. One bank. Hit hard, patch early, or hide.</p>
+      <h2>Crypto Mayhem (solo demo)</h2>
+      <p>Practice the terminal game. No host needed.</p>
     </a>
   </section>
 
   <footer>
-    <p class="dim">v0.1 · vertical slice</p>
+    <p class="dim">v0.3 · multiplayer infrastructure</p>
   </footer>
 </main>

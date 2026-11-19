@@ -1,0 +1,39 @@
+---
+layout: default
+title: Create a Quiz
+styles:
+  - /create/create.css
+---
+<main class="create">
+  <header>
+    <a href="{{ '/' | relative_url }}" class="back">← back</a>
+    <h1>Create a Quiz</h1>
+    <p class="sub">Saved to this browser. Export to share or move to another device.</p>
+  </header>
+
+  <section class="toolbar">
+    <label>
+      Title
+      <input id="quiz-title" type="text" placeholder="Cell Biology" autocomplete="off">
+    </label>
+    <div class="actions">
+      <button id="btn-save" class="primary">Save</button>
+      <button id="btn-export" class="ghost">Export JSON</button>
+      <button id="btn-import" class="ghost">Import JSON</button>
+      <input id="file-import" type="file" accept=".json" hidden>
+    </div>
+  </section>
+
+  <section id="questions" class="questions"></section>
+
+  <button id="btn-add" class="add">+ Add question</button>
+
+  <section class="saved">
+    <h2>Saved quizzes</h2>
+    <div id="saved-list"></div>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+</main>
+
+<script type="module" src="{{ '/create/src/create.js' | relative_url }}"></script>

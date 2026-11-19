@@ -48,10 +48,7 @@ export function createCommands(state, terminal) {
 
     targets: () => {
       const ids = Object.keys(state.targets);
-      if (!ids.length) {
-        terminal.print('no targets.', 'dim');
-        return;
-      }
+      if (!ids.length) { terminal.print('no targets.', 'dim'); return; }
       for (const id of ids) {
         const t = state.targets[id];
         terminal.print(`  ${id}  (${t.coins} coins, ${t.shell})`, 'dim');
@@ -70,17 +67,9 @@ export function createCommands(state, terminal) {
         terminal.print(`unknown verb: ${verb}. (only "login" is supported in this build)`, 'err');
         return;
       }
-
       const t = state.targets[targetId];
-      if (!t) {
-        terminal.print(`target not found: ${targetId}`, 'err');
-        return;
-      }
-
-      if (state.energy < 1) {
-        terminal.print('not enough energy. type $answer.', 'err');
-        return;
-      }
+      if (!t) { terminal.print(`target not found: ${targetId}`, 'err'); return; }
+      if (state.energy < 1) { terminal.print('not enough energy. type $answer.', 'err'); return; }
 
       const raw = rest.join(' ');
       let user, pass;
@@ -97,11 +86,7 @@ export function createCommands(state, terminal) {
       const result = attemptLogin(t, user, pass);
 
       if (result.query) terminal.print(`[query] ${result.query}`, 'query');
-
-      if (result.error) {
-        terminal.print(`[sql] ${result.error}`, 'err');
-        return;
-      }
+      if (result.error) { terminal.print(`[sql] ${result.error}`, 'err'); return; }
 
       if (result.ok) {
         const shell = shells.find(s => s.id === t.shell) || shells[0];

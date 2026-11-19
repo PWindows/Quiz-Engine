@@ -1,6 +1,5 @@
-/* Shared base + terminal styles.
- * Every page loads this. Themes override the CSS variables in :root.
- * A game's style.css is the right place for that. */
+/* Base + terminal styles. Loaded by every page via the layout.
+ * Themes override the :root variables in a game's style.css. */
 
 :root {
   --bg: #0a0e0a;
@@ -77,8 +76,6 @@ a { color: var(--accent); }
   font: inherit;
   caret-color: var(--accent);
 }
-
-/* ─── Mobile ───────────────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
   #terminal { padding: 10px 12px; font-size: 13px; }

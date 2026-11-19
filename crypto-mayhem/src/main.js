@@ -8,11 +8,8 @@ async function main() {
   const shells = window.GAME_SHELLS;
 
   if (!config || !shells) {
-    root.innerHTML = `<pre style="color:#ff6b6b;padding:20px">config.js failed to load. Open /config.js in a browser tab and check line 5.</pre>`;
+    root.innerHTML = `<pre style="color:#ff6b6b;padding:20px">config.js failed to load. Open /config.js and check line 5.</pre>`;
     return;
-  }
-  if (config._dataLoaded === false) {
-    console.warn('[config] _data/*.yml not loaded by Jekyll — using built-in defaults.');
   }
 
   const state = {
@@ -56,7 +53,7 @@ async function main() {
   }
 
   terminal.print('╔══════════════════════════════════════╗', 'banner');
-  terminal.print('║   CRYPTO MAYHEM  ·  vertical slice   ║', 'banner');
+  terminal.print('║   CRYPTO MAYHEM  ·  solo demo        ║', 'banner');
   terminal.print('╚══════════════════════════════════════╝', 'banner');
   terminal.print('', '');
   terminal.print('you have energy.  spend it wisely.', 'dim');

@@ -7,7 +7,6 @@ export class Terminal {
     this.historyIdx = 0;
 
     this.input.addEventListener('keydown', (e) => this._handleKey(e));
-
     root.addEventListener('click', () => {
       if (window.getSelection().toString()) return;
       this.input.focus();
@@ -51,7 +50,5 @@ export class Terminal {
     this.scrollback.scrollTop = this.scrollback.scrollHeight;
   }
 
-  clear() {
-    this.scrollback.innerHTML = '';
-  }
+  clear() { this.scrollback.innerHTML = ''; }
 }

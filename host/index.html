@@ -1,0 +1,41 @@
+---
+layout: default
+title: Host a Game
+styles:
+  - /host/host.css
+---
+<main class="host">
+  <header>
+    <a href="{{ '/' | relative_url }}" class="back">← back</a>
+    <h1>Host a Game</h1>
+  </header>
+
+  <section id="pick" class="pick">
+    <p class="sub">Pick a quiz to host. Your browser is the game server — keep this tab open.</p>
+    <div id="quiz-list" class="quiz-list"></div>
+  </section>
+
+  <section id="lobby" class="lobby" hidden>
+    <div class="code-box">
+      <div class="label">Room code</div>
+      <div id="room-code" class="code">····</div>
+      <div class="hint">Students go to <strong id="join-url"></strong> and enter this code.</div>
+    </div>
+
+    <div class="players">
+      <h2>Players (<span id="player-count">0</span>)</h2>
+      <ul id="player-list"></ul>
+    </div>
+
+    <div class="controls">
+      <button id="btn-start" class="primary" disabled>Start game</button>
+      <button id="btn-end" class="ghost" disabled>End game</button>
+      <button id="btn-cancel" class="ghost">Close room</button>
+    </div>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+</main>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script type="module" src="{{ '/host/src/host.js' | relative_url }}"></script>
