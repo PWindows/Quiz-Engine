@@ -29,7 +29,7 @@ function attemptReconnect(session) {
         document.title = (msg.quiz?.title || 'Game') + ' · PWindows Quiz Engine';
 
         try {
-          const mod = await import(`/${session.game}-mayhem/src/client.js`);
+          const mod = await import(`/${session.game}-mayhem/src/client.js?v=${window.BUILD_VERSION || Date.now()}`);
           mod.mount(root, conn, msg);
         } catch (e) {
           console.error(e);

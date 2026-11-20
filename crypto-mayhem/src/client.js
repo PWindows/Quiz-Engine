@@ -12,6 +12,24 @@ export function mount(root, conn, welcome) {
   let state = null;
   let terminal = null;
 
+  function loadSqlJs() {
+    if (typeof window.initSqlJs === 'function') return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-sqljs]');
+      if (existing) {
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', () => reject(new Error('sql.js failed to load')), { once: true });
+        return;
+      }
+      const script = document.createElement('script');
+      script.dataset.sqljs = 'true';
+      script.src = 'https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js';
+      script.onload = resolve;
+      script.onerror = () => reject(new Error('sql.js failed to load'));
+      document.head.appendChild(script);
+    });
+  }
+
   async function startGame(title) {
     if (started) return;
     started = true;
@@ -44,6 +62,7 @@ export function mount(root, conn, welcome) {
     });
 
     try {
+      await loadSqlJs();
       await initServer();
     } catch (err) {
       root.innerHTML = `<pre style="color:#ff6b6b;padding:20px">Failed to load sql.js: ${err.message}</pre>`;

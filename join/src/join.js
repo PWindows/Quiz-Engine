@@ -20,7 +20,11 @@ function toast(msg) {
 function renderShells() {
   const shells = window.GAME_SHELLS || [];
   const options = $('#shell-options');
-  if (!shells.length) return;
+  if (!shells.length) {
+    selectedShell = null;
+    options.innerHTML = '<p class="shell-empty">No shells are available.</p>';
+    return;
+  }
   selectedShell = shells[0].id;
   options.innerHTML = shells.map((shell, i) => `
     <label class="shell-option">
@@ -60,7 +64,7 @@ async function mountGame(msg) {
   }
 
   try {
-    await loadStylesheet(`/${game}-mayhem/style.css`);
+    await loadStylesheet(`/${game}-mayhem/style.css?v=${window.BUILD_VERSION || Date.now()}`);
   } catch (e) {
     console.warn('game theme failed to load', e);
   }
@@ -71,7 +75,7 @@ async function mountGame(msg) {
   document.title = (msg.quiz?.title || 'Game') + ' · PWindows Quiz Engine';
 
   try {
-    const mod = await import(`/${game}-mayhem/src/client.js`);
+    const mod = await import(`/${game}-mayhem/src/client.js?v=${window.BUILD_VERSION || Date.now()}`);
     mod.mount($('#game-screen'), conn, msg);
   } catch (e) {
     console.error(e);
@@ -84,6 +88,7 @@ function join() {
   const code = $('#code').value.trim().toUpperCase();
   const name = $('#name').value.trim() || 'Player';
   if (code.length !== 4) { toast('Enter a 4-character code'); return; }
+  if (!selectedShell) { toast('Choose a shell'); return; }
 
   playerId = makePlayerId();
   $('#btn-join').disabled = true;
