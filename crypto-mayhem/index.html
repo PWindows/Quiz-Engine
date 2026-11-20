@@ -7,4 +7,4 @@ styles:
 {% include terminal.html %}
 
 <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
-<script type="module" src="{{ '/crypto-mayhem/src/main.js' | relative_url }}"></script>
+<script type="module" src="{{ '/crypto-mayhem/src/main.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
