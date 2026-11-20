@@ -8,6 +8,7 @@ let roomCode = null;
 let quiz = null;
 let gameStarted = false;
 const players = new Map(); // playerId -> { peerId, conn, name, ready }
+const connectionPlayers = new WeakMap();
 
 function toast(msg) {
   const t = $('#toast');
@@ -65,10 +66,13 @@ function startHosting(quizData) {
   peer.on('connection', (conn) => {
     conn.on('data', (data) => handleMessage(conn, data));
     conn.on('close', () => {
-      for (const p of players.values()) {
-        if (p.peerId === conn.peer) p.conn = null;
+      const playerId = connectionPlayers.get(conn);
+      if (!playerId) return;
+      const p = players.get(playerId);
+      if (p && p.conn === conn) {
+        p.conn = null;
+        renderPlayers();
       }
-      renderPlayers();
     });
   });
 }
@@ -93,6 +97,7 @@ function handleMessage(conn, msg) {
       } else {
         players.set(playerId, { playerId, peerId: conn.peer, conn, name, shell: String(msg.shell || 'bash'), ready: false, cash: 500, energy: 3 });
       }
+      connectionPlayers.set(conn, playerId);
       conn.send({
         type: MSG.WELCOME,
         playerId,
@@ -115,6 +120,7 @@ function handleMessage(conn, msg) {
       }
       p.peerId = conn.peer;
       p.conn = conn;
+      connectionPlayers.set(conn, playerId);
       conn.send({
         type: MSG.WELCOME,
         playerId,
