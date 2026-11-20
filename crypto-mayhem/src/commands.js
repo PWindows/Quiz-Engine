@@ -1,6 +1,6 @@
 import { attemptLogin } from './server.js';
 
-export function createCommands(state, terminal) {
+export function createCommands(state, terminal, submitAnswer) {
   const config = window.GAME_CONFIG;
   const shells = window.GAME_SHELLS;
 
@@ -12,14 +12,19 @@ export function createCommands(state, terminal) {
       terminal.print('  $hack <target> login <user> [pass]', 'dim');
       terminal.print('  $targets                 list known targets', 'dim');
       terminal.print('  $status                  show energy + cash', 'dim');
+      terminal.print('  $shell                   show your selected shell', 'dim');
       terminal.print('  $clear                   clear the screen (or Ctrl+L)', 'dim');
     },
 
     answer: () => {
-      state.pendingQuestion = {
-        text: 'What is the powerhouse of the cell?',
-        answer: 'mitochondria',
-      };
+      const questions = state.questions || [];
+      if (!questions.length) {
+        terminal.print('no quiz questions are available.', 'err');
+        return;
+      }
+      const question = questions[state.answerIndex % questions.length];
+      state.answerIndex++;
+      state.pendingQuestion = question;
       terminal.print('question: ' + state.pendingQuestion.text, 'ok');
       terminal.print('type: $submit <answer>', 'dim');
     },
@@ -30,6 +35,10 @@ export function createCommands(state, terminal) {
         return;
       }
       const given = args.join(' ').trim().toLowerCase();
+      if (submitAnswer) {
+        submitAnswer({ questionId: state.pendingQuestion.id, answer: given });
+        return;
+      }
       if (given === state.pendingQuestion.answer) {
         state.energy += config.energyPerAnswer;
         terminal.print(`correct. +${config.energyPerAnswer} energy (total: ${state.energy})`, 'ok');
@@ -44,6 +53,13 @@ export function createCommands(state, terminal) {
     status: () => {
       terminal.print(`energy: ${state.energy}`, '');
       terminal.print(`cash:   ${state.cash}`, '');
+    },
+
+    shell: () => {
+      if (!state.shell) { terminal.print('no shell selected.', 'dim'); return; }
+      terminal.print(`shell:  ${state.shell.name}`, 'ok');
+      terminal.print(`access: ${state.shell.username}`, 'dim');
+      terminal.print(`tag:    ${state.shell.unique}`, 'dim');
     },
 
     targets: () => {

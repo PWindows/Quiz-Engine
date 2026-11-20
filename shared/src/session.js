@@ -1,8 +1,8 @@
 const COOKIE = 'pwindows_session';
 const MAX_AGE = 60 * 60 * 4;
 
-export function saveSession({ playerId, code, name, game }) {
-  const v = encodeURIComponent(JSON.stringify({ playerId, code, name, game }));
+export function saveSession({ playerId, code, name, game, shell }) {
+  const v = encodeURIComponent(JSON.stringify({ playerId, code, name, game, shell }));
   document.cookie = `${COOKIE}=${v}; path=/; max-age=${MAX_AGE}; SameSite=Lax`;
 }
 

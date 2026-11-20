@@ -7,6 +7,7 @@ let peer = null;
 let conn = null;
 let mounted = false;
 let playerId = null;
+let selectedShell = null;
 
 function toast(msg) {
   const t = $('#toast');
@@ -14,6 +15,23 @@ function toast(msg) {
   t.hidden = false;
   clearTimeout(toast._t);
   toast._t = setTimeout(() => { t.hidden = true; }, 2600);
+}
+
+function renderShells() {
+  const shells = window.GAME_SHELLS || [];
+  const options = $('#shell-options');
+  if (!shells.length) return;
+  selectedShell = shells[0].id;
+  options.innerHTML = shells.map((shell, i) => `
+    <label class="shell-option">
+      <input type="radio" name="shell" value="${shell.id}" ${i === 0 ? 'checked' : ''}>
+      <span class="shell-name">${shell.name}</span>
+      <span class="shell-tagline">${shell.tagline}</span>
+    </label>
+  `).join('');
+  options.addEventListener('change', (e) => {
+    if (e.target.name === 'shell') selectedShell = e.target.value;
+  });
 }
 
 function loadStylesheet(href) {
@@ -35,7 +53,7 @@ async function mountGame(msg) {
   const game = msg.game || 'crypto';
   const playPath = `/play/${game}/`;
 
-  saveSession({ playerId, code: msg.code, name: msg.name, game });
+  saveSession({ playerId, code: msg.code, name: msg.name, game, shell: msg.shell || selectedShell });
 
   if (location.pathname !== playPath) {
     history.pushState({ game, code: msg.code, playerId }, '', playPath);
@@ -74,7 +92,7 @@ function join() {
   peer.on('open', () => {
     conn = peer.connect(peerIdForCode(code), { reliable: true });
     conn.on('open', () => {
-      conn.send({ type: MSG.JOIN, name, playerId });
+      conn.send({ type: MSG.JOIN, name, playerId, shell: selectedShell });
     });
     conn.on('data', (msg) => {
       if (!msg || typeof msg !== 'object') return;
@@ -123,5 +141,6 @@ $('#code').addEventListener('input', (e) => {
 });
 $('#code').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#name').focus(); });
 $('#name').addEventListener('keydown', (e) => { if (e.key === 'Enter') join(); });
+renderShells();
 
 window.addEventListener('beforeunload', () => { if (peer) peer.destroy(); });

@@ -39,6 +39,7 @@ body {
 .players li .status { font-size: 13px; color: #6bff9f; }
 .players li.waiting .status { color: #fbbf24; }
 .players li.disconnected .status { color: #ef4444; }
+.players li .shell-name { color: #8a8aa8; font-size: 13px; }
 
 .controls { display: flex; gap: 12px; flex-wrap: wrap; }
 button { font: inherit; cursor: pointer; border-radius: 12px; font-weight: 700; padding: 14px 24px; border: 1.5px solid transparent; transition: all .15s; }

@@ -89,8 +89,9 @@ function handleMessage(conn, msg) {
         existing.peerId = conn.peer;
         existing.conn = conn;
         existing.name = name;
+        existing.shell = String(msg.shell || existing.shell || 'bash');
       } else {
-        players.set(playerId, { peerId: conn.peer, conn, name, ready: false });
+        players.set(playerId, { playerId, peerId: conn.peer, conn, name, shell: String(msg.shell || 'bash'), ready: false, cash: 500, energy: 3 });
       }
       conn.send({
         type: MSG.WELCOME,
@@ -98,6 +99,8 @@ function handleMessage(conn, msg) {
         game: quiz.game || 'crypto',
         quiz: publicQuiz(quiz),
         settings: { rounds: 15 },
+        shell: players.get(playerId).shell,
+        players: Array.from(players.values()).map(p => ({ id: p.playerId, name: p.name, shell: p.shell })),
       });
       renderPlayers();
       break;
@@ -119,6 +122,8 @@ function handleMessage(conn, msg) {
         quiz: publicQuiz(quiz),
         settings: { rounds: 15 },
         reconnected: true,
+        shell: p.shell,
+        players: Array.from(players.values()).map(player => ({ id: player.playerId, name: player.name, shell: player.shell })),
       });
       if (gameStarted) {
         conn.send({ type: MSG.START, title: quiz.title });
@@ -138,6 +143,24 @@ function handleMessage(conn, msg) {
     case MSG.PING:
       conn.send({ type: MSG.PONG });
       break;
+
+    case MSG.ANSWER: {
+      let p = null;
+      for (const player of players.values()) {
+        if (player.peerId === conn.peer) { p = player; break; }
+      }
+      if (!p) break;
+      const question = quiz.questions.find(q => q.id === msg.questionId);
+      const correct = !!question && String(msg.answer || '').trim().toLowerCase() === String(question.answer || '').trim().toLowerCase();
+      if (correct) {
+        p.energy = (p.energy || 0) + (window.GAME_CONFIG?.energyPerAnswer || 3);
+        p.cash = (p.cash || 0);
+        conn.send({ type: MSG.ACK, correct: true, energy: p.energy, cash: p.cash });
+      } else {
+        conn.send({ type: MSG.ACK, correct: false, energy: p.energy || 0, cash: p.cash || 0 });
+      }
+      break;
+    }
   }
 }
 
@@ -149,7 +172,7 @@ function renderPlayers() {
     const cls = !p.conn ? 'disconnected' : (p.ready ? '' : 'waiting');
     const status = !p.conn ? 'disconnected' : (p.ready ? 'ready' : 'joining…');
     return `<li class="${cls}">
-      <span>${escapeHtml(p.name)}</span>
+      <span>${escapeHtml(p.name)} <span class="shell-name">· ${escapeHtml(p.shell)}</span></span>
       <span class="status">${status}</span>
     </li>`;
   }).join('');
